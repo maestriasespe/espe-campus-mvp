@@ -1,12 +1,12 @@
 {
   "name": "ESPE Campus",
   "short_name": "ESPE",
-  "description": "Sistema ESPE Campus",
-  "start_url": "/",
-  "scope": "/",
+  "description": "Plataforma oficial de alumnos ESPE",
+  "start_url": "/login",
   "display": "standalone",
-  "background_color": "#0b1b3a",
-  "theme_color": "#0b1b3a",
+  "background_color": "#5B0A0A",
+  "theme_color": "#5B0A0A",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "/icons/icon-192.png",

@@ -1,0 +1,3 @@
+matricula,concept,amount,due_date,status
+800001,Mensualidad,3500,2026-03-05,pending
+800001,Mensualidad,3500,2026-02-05,paid

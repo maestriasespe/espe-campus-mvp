@@ -2,19 +2,25 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
-    "./app/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./lib/**/*.{ts,tsx}",
+    "./app/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+    "./lib/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
       colors: {
-        navy: "#0B1630",
-        gold: "#C8A24A",
-        maroon: "#6B0F1A",
-      }
+        espe: {
+          bg: "var(--espe-bg)",
+          bg2: "var(--espe-bg2)",
+          gold: "var(--espe-gold)",
+          gold2: "var(--espe-gold2)",
+          text: "var(--espe-text)",
+          muted: "var(--espe-muted)",
+        },
+      },
     },
   },
   plugins: [],
 };
+
 export default config;

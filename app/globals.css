@@ -1,11 +1,13 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 :root {
-  color-scheme: light;
+  --espe-bg: #5B0A0A;
+  --espe-bg2: #2A0606;
+  --espe-gold: #D9B86C;
+  --espe-gold2: #F3E2B6;
+  --espe-text: #FFF7E6;
+  --espe-muted: #E9DCC5;
 }
 
-body {
-  @apply bg-slate-50 text-slate-900;
+html, body {
+  background: var(--espe-bg);
+  color: var(--espe-text);
 }

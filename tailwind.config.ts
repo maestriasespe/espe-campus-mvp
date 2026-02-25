@@ -1,5 +1,10 @@
-// tailwind.config.js
 module.exports = {
+  content: [
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
   theme: {
     extend: {
       colors: {
@@ -14,12 +19,9 @@ module.exports = {
           line: "#E6E6E3",
         },
       },
-      boxShadow: {
-        soft: "0 10px 30px rgba(0,0,0,0.08)",
-      },
-      borderRadius: {
-        xl2: "20px",
-      },
+      boxShadow: { soft: "0 10px 30px rgba(0,0,0,0.08)" },
+      borderRadius: { xl2: "20px" },
     },
   },
+  plugins: [],
 };

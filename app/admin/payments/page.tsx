@@ -57,9 +57,10 @@ export default function AdminPaymentsPage() {
 
   async function loadSummary() {
     setLoadingSummary(true);
-    const res = await fetch(`/api/admin/payments?summary=1&month=${encodeURIComponent(month)}`, {
-      cache: "no-store",
-    });
+    const res = await fetch(
+      `/api/admin/payments?summary=1&month=${encodeURIComponent(month)}`,
+      { cache: "no-store" }
+    );
     const j = await res.json();
     setSummary(j.summary || null);
     setLoadingSummary(false);
@@ -111,67 +112,80 @@ export default function AdminPaymentsPage() {
   }
 
   const showActions = tab === "submitted"; // Solo acciones en revisión
-
-  // Columnas:
-  // Base: Alumno, Matrícula, Concepto, Monto, Vence, Estatus, Comprobante = 7
-  // + Acciones en revisión = 8
   const colSpanNoRows = showActions ? 8 : 7;
 
   return (
     <div className="p-6 space-y-4">
       {/* Dashboard */}
       <div className="grid gap-3 md:grid-cols-4">
-        <div className="rounded-xl border bg-white p-4">
-          <div className="text-sm text-slate-500">Adeudos (mes)</div>
-          <div className="text-2xl font-semibold">{loadingSummary ? "…" : summary?.due?.count ?? 0}</div>
-          <div className="text-sm text-slate-600">{loadingSummary ? "…" : money(summary?.due?.sum)}</div>
+        <div className="rounded-xl2 border border-espe-line bg-espe-surface shadow-soft p-4">
+          <div className="text-sm text-espe-muted">Adeudos (mes)</div>
+          <div className="text-2xl font-semibold text-espe-text">
+            {loadingSummary ? "…" : summary?.due?.count ?? 0}
+          </div>
+          <div className="text-sm text-espe-muted">
+            {loadingSummary ? "…" : money(summary?.due?.sum)}
+          </div>
         </div>
 
-        <div className="rounded-xl border bg-white p-4">
-          <div className="text-sm text-slate-500">Cobrados (mes)</div>
-          <div className="text-2xl font-semibold">{loadingSummary ? "…" : summary?.paid?.count ?? 0}</div>
-          <div className="text-sm text-slate-600">{loadingSummary ? "…" : money(summary?.paid?.sum)}</div>
+        <div className="rounded-xl2 border border-espe-line bg-espe-surface shadow-soft p-4">
+          <div className="text-sm text-espe-muted">Cobrados (mes)</div>
+          <div className="text-2xl font-semibold text-espe-text">
+            {loadingSummary ? "…" : summary?.paid?.count ?? 0}
+          </div>
+          <div className="text-sm text-espe-muted">
+            {loadingSummary ? "…" : money(summary?.paid?.sum)}
+          </div>
         </div>
 
-        <div className="rounded-xl border bg-white p-4">
-          <div className="text-sm text-slate-500">En revisión (mes)</div>
-          <div className="text-2xl font-semibold">{loadingSummary ? "…" : summary?.submitted?.count ?? 0}</div>
-          <div className="text-xs text-slate-400 mt-1">Pendientes con comprobante</div>
+        <div className="rounded-xl2 border border-espe-line bg-espe-surface shadow-soft p-4">
+          <div className="text-sm text-espe-muted">En revisión (mes)</div>
+          <div className="text-2xl font-semibold text-espe-text">
+            {loadingSummary ? "…" : summary?.submitted?.count ?? 0}
+          </div>
+          <div className="text-xs text-espe-muted mt-1">Pendientes con comprobante</div>
         </div>
 
-        <div className="rounded-xl border bg-white p-4">
-          <div className="text-sm text-slate-500">Rechazados (mes)</div>
-          <div className="text-2xl font-semibold">{loadingSummary ? "…" : summary?.rejected?.count ?? 0}</div>
-          <div className="text-xs text-slate-400 mt-1">Comprobantes rechazados</div>
+        <div className="rounded-xl2 border border-espe-line bg-espe-surface shadow-soft p-4">
+          <div className="text-sm text-espe-muted">Rechazados (mes)</div>
+          <div className="text-2xl font-semibold text-espe-text">
+            {loadingSummary ? "…" : summary?.rejected?.count ?? 0}
+          </div>
+          <div className="text-xs text-espe-muted mt-1">Comprobantes rechazados</div>
         </div>
       </div>
 
       {/* Header + filtros */}
       <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold">{title}</h1>
-          <div className="text-sm text-slate-500">Filtro mensual + búsqueda por alumno / matrícula / concepto</div>
+          <h1 className="text-2xl font-semibold text-espe-text">{title}</h1>
+          <div className="text-sm text-espe-muted">
+            Filtro mensual + búsqueda por alumno / matrícula / concepto
+          </div>
         </div>
 
         <form onSubmit={onSearch} className="flex flex-col gap-2 md:flex-row md:items-center">
           <div className="flex items-center gap-2">
-            <label className="text-sm text-slate-600">Mes</label>
+            <label className="text-sm text-espe-muted">Mes</label>
             <input
               type="month"
-              className="border rounded-lg px-3 py-2 bg-white"
+              className="border border-espe-line rounded-lg px-3 py-2 bg-espe-surface text-espe-text"
               value={month}
               onChange={(e) => setMonth(e.target.value)}
             />
           </div>
 
           <input
-            className="border rounded-lg px-3 py-2 w-full md:w-80 bg-white"
+            className="border border-espe-line rounded-lg px-3 py-2 w-full md:w-80 bg-espe-surface text-espe-text"
             placeholder="Buscar (alumno, matrícula, concepto)…"
             value={q}
             onChange={(e) => setQ(e.target.value)}
           />
 
-          <button className="px-4 py-2 rounded-lg bg-slate-900 text-white hover:bg-slate-800" type="submit">
+          <button
+            className="px-4 py-2 rounded-lg border border-espe-gold bg-espe-gold text-espe-navy font-semibold hover:brightness-95"
+            type="submit"
+          >
             Buscar
           </button>
         </form>
@@ -184,8 +198,10 @@ export default function AdminPaymentsPage() {
             key={t.key}
             onClick={() => setTab(t.key)}
             className={[
-              "px-4 py-2 rounded-xl border",
-              tab === t.key ? "bg-slate-900 text-white border-slate-900" : "bg-white hover:bg-slate-50",
+              "px-4 py-2 rounded-xl border font-semibold",
+              tab === t.key
+                ? "bg-espe-navy text-white border-espe-navy"
+                : "bg-espe-surface text-espe-text border-espe-line hover:bg-espe-surface2",
             ].join(" ")}
           >
             {t.label}
@@ -193,79 +209,91 @@ export default function AdminPaymentsPage() {
         ))}
       </div>
 
-      {/* Tabla */}
-      <div className="rounded-xl border bg-white overflow-hidden">
+      {/* Tabla (responsive móvil + tema) */}
+      <div className="rounded-xl2 border border-espe-line bg-espe-surface shadow-soft overflow-hidden">
         {loadingRows ? (
-          <div className="p-6">Cargando…</div>
+          <div className="p-6 text-espe-muted">Cargando…</div>
         ) : (
-          <table className="w-full text-sm">
-            <thead className="bg-slate-50">
-              <tr>
-                <th className="text-left p-3">Alumno</th>
-                <th className="text-left p-3">Matrícula</th>
-                <th className="text-left p-3">Concepto</th>
-                <th className="text-left p-3">Monto</th>
-                <th className="text-left p-3">Vence</th>
-                <th className="text-left p-3">Estatus</th>
-                <th className="text-left p-3">Comprobante</th>
-                {showActions && <th className="text-left p-3">Acciones</th>}
-              </tr>
-            </thead>
-
-            <tbody>
-              {rows.map((r) => (
-                <tr key={r.id} className="border-t">
-                  <td className="p-3">{r.student_name ?? "-"}</td>
-                  <td className="p-3">{r.matricula ?? "-"}</td>
-                  <td className="p-3">{r.concept}</td>
-                  <td className="p-3">{money(r.amount)}</td>
-                  <td className="p-3">{r.due_date}</td>
-                  <td className="p-3 capitalize">{r.status}</td>
-
-                  <td className="p-3">
-                    {r.proof_public_url ? (
-                      <a className="text-blue-700 underline" href={r.proof_public_url} target="_blank" rel="noreferrer">
-                        Ver
-                      </a>
-                    ) : (
-                      <span className="text-slate-400">—</span>
-                    )}
-                  </td>
-
-                  {showActions && (
-                    <td className="p-3">
-                      <div className="flex gap-2">
-                        <button
-                          className="px-3 py-1 rounded bg-emerald-600 text-white hover:bg-emerald-700 disabled:opacity-50"
-                          disabled={!r.proof_public_url}
-                          onClick={() => setStatus(r.id, "approved")}
-                          title={!r.proof_public_url ? "No hay comprobante" : "Aprobar"}
-                        >
-                          Aprobar
-                        </button>
-                        <button
-                          className="px-3 py-1 rounded bg-rose-600 text-white hover:bg-rose-700 disabled:opacity-50"
-                          disabled={!r.proof_public_url}
-                          onClick={() => setStatus(r.id, "rejected")}
-                          title={!r.proof_public_url ? "No hay comprobante" : "Rechazar"}
-                        >
-                          Rechazar
-                        </button>
-                      </div>
-                    </td>
-                  )}
-                </tr>
-              ))}
-
-              {rows.length === 0 && (
+          <div className="overflow-x-auto">
+            <table className="min-w-[1100px] w-full text-sm">
+              <thead className="bg-espe-surface2 text-espe-muted">
                 <tr>
-                  <td className="p-4 text-slate-500" colSpan={colSpanNoRows}>
-                    No hay resultados.
-                  </td>
+                  <th className="text-left px-3 py-3 text-xs font-semibold">Alumno</th>
+                  <th className="text-left px-3 py-3 text-xs font-semibold">Matrícula</th>
+                  <th className="text-left px-3 py-3 text-xs font-semibold">Concepto</th>
+                  <th className="text-left px-3 py-3 text-xs font-semibold">Monto</th>
+                  <th className="text-left px-3 py-3 text-xs font-semibold">Vence</th>
+                  <th className="text-left px-3 py-3 text-xs font-semibold">Estatus</th>
+                  <th className="text-left px-3 py-3 text-xs font-semibold">Comprobante</th>
+                  {showActions && <th className="text-left px-3 py-3 text-xs font-semibold">Acciones</th>}
                 </tr>
-              )}
-            </tbody>
-          </table>
+              </thead>
+
+              <tbody className="text-espe-text">
+                {rows.map((r) => (
+                  <tr key={r.id} className="border-t border-espe-line">
+                    <td className="px-3 py-3 align-top">{r.student_name ?? "-"}</td>
+                    <td className="px-3 py-3 align-top">{r.matricula ?? "-"}</td>
+                    <td className="px-3 py-3 align-top">{r.concept}</td>
+                    <td className="px-3 py-3 align-top">{money(r.amount)}</td>
+                    <td className="px-3 py-3 align-top">{r.due_date}</td>
+
+                    <td className="px-3 py-3 align-top">
+                      <span className="inline-flex items-center rounded-full border border-espe-line bg-espe-surface2 px-2 py-1 text-xs font-semibold">
+                        {r.status}
+                      </span>
+                    </td>
+
+                    <td className="px-3 py-3 align-top">
+                      {r.proof_public_url ? (
+                        <a
+                          className="inline-flex items-center rounded-lg border border-espe-gold/40 px-3 py-1.5 text-xs font-semibold text-espe-text hover:bg-espe-gold/10"
+                          href={r.proof_public_url}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Ver
+                        </a>
+                      ) : (
+                        <span className="text-espe-muted">—</span>
+                      )}
+                    </td>
+
+                    {showActions && (
+                      <td className="px-3 py-3 align-top">
+                        <div className="flex gap-2">
+                          <button
+                            className="px-3 py-1.5 rounded-lg border border-espe-gold bg-espe-gold text-espe-navy font-semibold hover:brightness-95 disabled:opacity-50"
+                            disabled={!r.proof_public_url}
+                            onClick={() => setStatus(r.id, "approved")}
+                            title={!r.proof_public_url ? "No hay comprobante" : "Aprobar"}
+                          >
+                            Aprobar
+                          </button>
+                          <button
+                            className="px-3 py-1.5 rounded-lg border border-espe-line bg-espe-surface2 text-espe-text font-semibold hover:bg-espe-surface disabled:opacity-50"
+                            disabled={!r.proof_public_url}
+                            onClick={() => setStatus(r.id, "rejected")}
+                            title={!r.proof_public_url ? "No hay comprobante" : "Rechazar"}
+                          >
+                            Rechazar
+                          </button>
+                        </div>
+                      </td>
+                    )}
+                  </tr>
+                ))}
+
+                {rows.length === 0 && (
+                  <tr>
+                    <td className="px-3 py-4 text-espe-muted" colSpan={colSpanNoRows}>
+                      No hay resultados.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
     </div>

@@ -16,52 +16,76 @@ export default async function StudentPayments() {
   return (
     <Card title="Pagos">
       <div className="overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead className="text-left text-slate-600">
+        {/* min-w para que en móvil se pueda deslizar horizontal */}
+        <table className="min-w-[780px] w-full text-sm">
+          <thead className="text-left text-espe-muted">
             <tr>
-              <th className="py-2">Concepto</th>
-              <th className="py-2">Monto</th>
-              <th className="py-2">Vence</th>
-              <th className="py-2">Estatus</th>
-              <th className="py-2">Comprobante</th>
+              <th className="py-3 pr-4">Concepto</th>
+              <th className="py-3 pr-4">Monto</th>
+              <th className="py-3 pr-4">Vence</th>
+              <th className="py-3 pr-4">Estatus</th>
+              <th className="py-3 pr-4">Comprobante</th>
             </tr>
           </thead>
+
           <tbody>
             {(rows ?? []).map((r: any) => (
-              <tr key={r.id} className="border-t">
-                <td className="py-2">{r.concept}</td>
-                <td className="py-2">${Number(r.amount).toFixed(2)}</td>
-                <td className="py-2">{r.due_date ? new Date(r.due_date).toLocaleDateString("es-MX") : ""}</td>
-                <td className="py-2">
-                  <span className={
-                    "px-2 py-1 rounded-lg text-xs " +
-                    (r.status === "paid" ? "bg-emerald-100 text-emerald-800" :
-                     r.status === "overdue" ? "bg-rose-100 text-rose-800" :
-                     "bg-amber-100 text-amber-800")
-                  }>
-                    {r.status === "paid" ? "Pagado" : r.status === "overdue" ? "Vencido" : "Pendiente"}
+              <tr key={r.id} className="border-t border-espe-line">
+                <td className="py-3 pr-4 text-espe-text">{r.concept}</td>
+
+                <td className="py-3 pr-4 text-espe-text">
+                  {Number(r.amount).toLocaleString("es-MX", {
+                    style: "currency",
+                    currency: "MXN",
+                  })}
+                </td>
+
+                <td className="py-3 pr-4 text-espe-text">
+                  {r.due_date ? new Date(r.due_date).toLocaleDateString("es-MX") : "—"}
+                </td>
+
+                <td className="py-3 pr-4">
+                  <span
+                    className={
+                      "inline-flex items-center rounded-full border px-2 py-1 text-xs font-semibold " +
+                      (r.status === "paid"
+                        ? "border-emerald-300/40 bg-emerald-500/10 text-emerald-200"
+                        : r.status === "overdue"
+                        ? "border-rose-300/40 bg-rose-500/10 text-rose-200"
+                        : "border-amber-300/40 bg-amber-500/10 text-amber-200")
+                    }
+                  >
+                    {r.status === "paid"
+                      ? "Pagado"
+                      : r.status === "overdue"
+                      ? "Vencido"
+                      : "Pendiente"}
                   </span>
                 </td>
-                <td className="py-2">
-<td>
-  {r.proof_url ? (
-    <a
-      className="text-navy underline"
-      href={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/payment-proofs/${r.proof_url}`}
-      target="_blank"
-      rel="noreferrer"
-    >
-      Ver
-    </a>
-  ) : (
-    <UploadProof paymentId={r.id} />
-  )}
-</td>
+
+                <td className="py-3 pr-4">
+                  {r.proof_url ? (
+                    <a
+                      className="inline-flex items-center rounded-lg border border-espe-gold/40 px-3 py-1.5 text-xs font-semibold text-espe-text hover:bg-espe-gold/10"
+                      href={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/payment-proofs/${r.proof_url}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Ver
+                    </a>
+                  ) : (
+                    <UploadProof paymentId={r.id} />
+                  )}
                 </td>
               </tr>
             ))}
+
             {(!rows || rows.length === 0) && (
-              <tr><td className="py-3 text-slate-500" colSpan={5}>No hay pagos cargados.</td></tr>
+              <tr>
+                <td className="py-4 text-espe-muted" colSpan={5}>
+                  No hay pagos cargados.
+                </td>
+              </tr>
             )}
           </tbody>
         </table>
@@ -69,5 +93,3 @@ export default async function StudentPayments() {
     </Card>
   );
 }
-
-

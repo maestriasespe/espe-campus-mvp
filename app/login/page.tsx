@@ -1,61 +1,74 @@
-import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import { createServerClient } from "@supabase/ssr";
+// C:\dev\espe-campus-mvp_old\app\login\page.tsx
+import { BrandBar } from "@/components/BrandBar";
+import Link from "next/link";
 
-export async function POST(req: Request) {
-  const formData = await req.formData();
+export default function LoginPage() {
+  return (
+    <div className="min-h-screen bg-espe-bg text-espe-text">
+      <BrandBar title="Acceso alumnos" />
 
-  const matricula = String(formData.get("matricula") || "").trim();
-  const password = String(formData.get("password") || "").trim();
+      <div className="mx-auto max-w-md px-5 py-14">
+        <div className="rounded-3xl border border-espe-gold/30 bg-espe-bg2/50 shadow-2xl backdrop-blur-md p-7">
+          <div className="text-center">
+            <div className="text-espe-gold text-[11px] tracking-[0.28em] uppercase">
+              Escuela Superior de Procesos Electorales
+            </div>
 
-  if (!matricula || !password) {
-    return NextResponse.redirect(new URL("/?error=Credenciales inválidas", req.url));
-  }
+            <h1 className="mt-2 text-3xl font-extrabold tracking-wide text-espe-gold">
+              ESPE Campus
+            </h1>
 
-  const cookieStore = cookies();
+            <p className="mt-2 text-sm text-espe-muted">
+              Ingresa con tu matrícula y contraseña.
+            </p>
+          </div>
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        get: (name) => cookieStore.get(name)?.value,
-        set: (name, value, options) => {
-          cookieStore.set({ name, value, ...options });
-        },
-        remove: (name, options) => {
-          cookieStore.set({ name, value: "", ...options });
-        },
-      },
-    }
+          <form className="mt-8 space-y-5" method="post" action="/api/auth/login">
+            <div>
+              <label className="text-sm font-medium text-espe-gold">Matrícula</label>
+              <input
+                type="text"
+                name="matricula"
+                inputMode="text"
+                autoCapitalize="none"
+                autoCorrect="off"
+                className="mt-2 w-full rounded-xl border border-espe-gold/25 bg-black/25 px-4 py-3 text-espe-text placeholder-espe-muted/70
+                           outline-none focus:border-espe-gold focus:ring-2 focus:ring-espe-gold/25"
+                placeholder="Ej. 800123 o ALU8001"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-medium text-espe-gold">Contraseña</label>
+              <input
+                name="password"
+                type="password"
+                className="mt-2 w-full rounded-xl border border-espe-gold/25 bg-black/25 px-4 py-3 text-espe-text placeholder-espe-muted/70
+                           outline-none focus:border-espe-gold focus:ring-2 focus:ring-espe-gold/25"
+                placeholder="********"
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full rounded-xl py-3 font-semibold tracking-wide text-espe-bg2
+                         bg-gradient-to-r from-espe-gold via-espe-gold2 to-espe-gold
+                         shadow-lg hover:opacity-95 active:scale-[0.99] transition"
+            >
+              Entrar
+            </button>
+          </form>
+
+          <div className="mt-5 flex items-center justify-between text-xs text-espe-muted">
+            <span>¿No tienes contraseña? Solicítala a control escolar.</span>
+            <Link className="text-espe-gold hover:underline" href="/forgot">
+              ¿Olvidaste?
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
   );
-
-  // 🔥 CONVERSIÓN CLAVE
-  const email = `${matricula.toLowerCase()}@espe-campus.local`;
-
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
-
-  if (error) {
-    return NextResponse.redirect(
-      new URL("/?error=Credenciales incorrectas", req.url)
-    );
-  }
-
-  // Detectar rol
-  const userId = data.user.id;
-
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", userId)
-    .single();
-
-  if (profile?.role === "admin") {
-    return NextResponse.redirect(new URL("/admin", req.url));
-  }
-
-  return NextResponse.redirect(new URL("/student", req.url));
 }

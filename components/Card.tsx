@@ -1,12 +1,14 @@
-import { ReactNode } from "react";
-
-export function Card({ title, children }: { title: string; children: ReactNode }) {
+export function Card({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
   return (
-    <div className="rounded-2xl bg-white shadow-sm border border-slate-200">
-      <div className="px-5 py-4 border-b border-slate-200">
-        <h3 className="font-semibold">{title}</h3>
-      </div>
-      <div className="px-5 py-4">{children}</div>
+    <div className="rounded-xl2 border border-espe-line bg-espe-surface shadow-soft p-5">
+      <div className="text-sm font-bold text-espe-navy">{title}</div>
+      <div className="mt-3">{children}</div>
     </div>
   );
 }

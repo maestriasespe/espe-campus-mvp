@@ -1,13 +1,16 @@
-:root {
-  --espe-bg: #5B0A0A;
-  --espe-bg2: #2A0606;
-  --espe-gold: #D9B86C;
-  --espe-gold2: #F3E2B6;
-  --espe-text: #FFF7E6;
-  --espe-muted: #E9DCC5;
-}
+/* Base typographic polish */
+html { -webkit-text-size-adjust: 100%; }
+body { font-feature-settings: "ss01" 1, "cv02" 1; }
 
-html, body {
-  background: var(--espe-bg);
-  color: var(--espe-text);
+a { text-decoration: none; }
+a:hover { text-decoration: none; }
+
+:root {
+  --espe-bg: #0b0b0d;          /* profundo (modo elegante) */
+  --espe-surface: rgba(255,255,255,0.06);
+  --espe-surface2: rgba(255,255,255,0.09);
+  --espe-border: rgba(255,255,255,0.10);
+  --espe-text: #f4f4f5;
+  --espe-muted: rgba(244,244,245,0.72);
+  --espe-gold: #c8a24a;
 }

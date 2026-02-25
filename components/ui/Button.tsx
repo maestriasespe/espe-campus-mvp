@@ -1,12 +1,15 @@
 "use client";
 
 import React from "react";
-import clsx from "clsx";
 
 type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "goldOutline" | "goldSolid" | "ghost";
   full?: boolean;
 };
+
+function cn(...classes: Array<string | undefined | false>) {
+  return classes.filter(Boolean).join(" ");
+}
 
 export function Button({
   variant = "goldOutline",
@@ -15,20 +18,20 @@ export function Button({
   ...props
 }: Props) {
   const base =
-    "inline-flex items-center justify-center gap-2 rounded-xl2 px-4 py-3 text-sm font-semibold transition active:scale-[0.99] focus:outline-none focus:ring-2 focus:ring-espe-gold/40";
+    "inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold transition active:scale-[0.99] focus:outline-none focus:ring-2 focus:ring-yellow-500/40";
 
-  const styles: Record<string, string> = {
+  const styles: Record<NonNullable<Props["variant"]>, string> = {
     goldOutline:
-      "bg-espe-surface text-espe-navy border border-espe-gold hover:bg-espe-gold/10",
+      "bg-white text-slate-900 border border-yellow-600 hover:bg-yellow-50",
     goldSolid:
-      "bg-espe-gold text-espe-navy border border-espe-gold hover:brightness-95",
+      "bg-yellow-600 text-slate-900 border border-yellow-600 hover:brightness-95",
     ghost:
-      "bg-transparent text-espe-navy border border-espe-line hover:bg-espe-line/40",
+      "bg-transparent text-slate-900 border border-slate-200 hover:bg-slate-100",
   };
 
   return (
     <button
-      className={clsx(base, styles[variant], full && "w-full", className)}
+      className={cn(base, styles[variant], full && "w-full", className)}
       {...props}
     />
   );

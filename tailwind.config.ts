@@ -1,26 +1,25 @@
-import type { Config } from "tailwindcss";
-
-const config: Config = {
-  content: [
-    "./app/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
-    "./lib/**/*.{js,ts,jsx,tsx}",
-  ],
+// tailwind.config.js
+module.exports = {
   theme: {
     extend: {
       colors: {
         espe: {
-          bg: "var(--espe-bg)",
-          bg2: "var(--espe-bg2)",
-          gold: "var(--espe-gold)",
-          gold2: "var(--espe-gold2)",
-          text: "var(--espe-text)",
-          muted: "var(--espe-muted)",
+          bg: "#F7F7F5",
+          surface: "#FFFFFF",
+          text: "#111111",
+          muted: "#6B7280",
+          navy: "#0B1220",
+          gold: "#C8A24A",
+          goldSoft: "#E7D39A",
+          line: "#E6E6E3",
         },
+      },
+      boxShadow: {
+        soft: "0 10px 30px rgba(0,0,0,0.08)",
+      },
+      borderRadius: {
+        xl2: "20px",
       },
     },
   },
-  plugins: [],
 };
-
-export default config;

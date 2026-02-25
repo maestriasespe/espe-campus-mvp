@@ -1,0 +1,59 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext.kotlin_version = '1.8.22'
+
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.7.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.google.gms:google-services:4.4.2'
+    }
+}
+
+apply from: "variables.gradle"
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+/**
+ * ✅ Kotlin: forzar una sola versión para evitar duplicados
+ * ✅ Kotlin: excluir kotlin-stdlib-jdk7/jdk8 viejos
+ */
+subprojects {
+    configurations.configureEach { cfg ->
+        cfg.resolutionStrategy.eachDependency { details ->
+            if (details.requested.group == 'org.jetbrains.kotlin') {
+                details.useVersion kotlin_version
+            }
+        }
+        cfg.exclude group: "org.jetbrains.kotlin", module: "kotlin-stdlib-jdk7"
+        cfg.exclude group: "org.jetbrains.kotlin", module: "kotlin-stdlib-jdk8"
+    }
+}
+
+/**
+ * ✅ Java: FORZAR Java 17 en TODOS los módulos Android (incluye :capacitor-android)
+ * Importante: NO usar options.release (AGP lo prohíbe).
+ */
+subprojects { proj ->
+    proj.afterEvaluate {
+        def androidExt = proj.extensions.findByName("android")
+        if (androidExt != null && androidExt.hasProperty("compileOptions")) {
+            androidExt.compileOptions.sourceCompatibility = JavaVersion.VERSION_17
+            androidExt.compileOptions.targetCompatibility = JavaVersion.VERSION_17
+        }
+    }
+}
+
+tasks.register('clean', Delete) {
+    delete rootProject.buildDir
+}

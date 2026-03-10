@@ -1,17 +1,21 @@
-"use client";
-
 import { BrandBar } from "@/components/BrandBar";
 import Link from "next/link";
 
-export default function LoginPage() {
+type LoginPageProps = {
+  searchParams?: {
+    e?: string;
+  };
+};
+
+export default function LoginPage({ searchParams }: LoginPageProps) {
+  const hasError = searchParams?.e === "1";
+
   return (
     <div className="min-h-screen bg-espe-bg text-espe-text">
       <BrandBar title="Acceso alumnos" />
 
       <div className="mx-auto max-w-md px-5 py-14">
         <div className="rounded-3xl border border-espe-gold/30 bg-espe-bg2/50 shadow-2xl backdrop-blur-md p-7">
-
-          {/* HEADER */}
           <div className="text-center">
             <div className="text-espe-gold text-[11px] tracking-[0.28em] uppercase">
               Escuela Superior de Procesos Electorales
@@ -26,13 +30,17 @@ export default function LoginPage() {
             </p>
           </div>
 
-          {/* LOGIN FORM */}
+          {hasError && (
+            <div className="mt-6 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+              Matrícula o contraseña incorrecta. Verifica tus datos e inténtalo nuevamente.
+            </div>
+          )}
+
           <form
             className="mt-8 space-y-5"
             method="post"
             action="/api/auth/login"
           >
-            {/* MATRÍCULA */}
             <div>
               <label className="text-sm font-medium text-espe-gold">
                 Matrícula
@@ -51,7 +59,6 @@ export default function LoginPage() {
               />
             </div>
 
-            {/* PASSWORD */}
             <div>
               <label className="text-sm font-medium text-espe-gold">
                 Contraseña
@@ -67,7 +74,6 @@ export default function LoginPage() {
               />
             </div>
 
-            {/* LOGIN BUTTON */}
             <button
               type="submit"
               className="w-full rounded-xl py-3 font-semibold tracking-wide text-espe-bg2
@@ -78,9 +84,7 @@ export default function LoginPage() {
             </button>
           </form>
 
-          {/* FOOTER LINKS */}
           <div className="mt-6 flex items-center justify-between text-xs text-espe-muted">
-
             <span>
               ¿No tienes contraseña? Solicítala a control escolar
             </span>
@@ -91,9 +95,7 @@ export default function LoginPage() {
             >
               ¿Olvidaste tu contraseña?
             </Link>
-
           </div>
-
         </div>
       </div>
     </div>

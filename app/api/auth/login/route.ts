@@ -8,10 +8,11 @@ export async function POST(req: Request) {
   const password = String(form.get("password") ?? "");
 
   if (!matricula || !password) {
-    return NextResponse.redirect(new URL("/login", req.url));
+    return NextResponse.redirect(new URL("/login?e=1", req.url));
   }
 
   const user = await verifyLogin(matricula, password);
+
   if (!user) {
     return NextResponse.redirect(new URL("/login?e=1", req.url));
   }

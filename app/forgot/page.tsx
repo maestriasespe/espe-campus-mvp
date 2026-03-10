@@ -1,40 +1,67 @@
-import Link from "next/link";
-import { BrandBar } from "@/components/BrandBar";
+"use client";
 
-export default function ForgotPage() {
+import { useState } from "react";
+import { createClient } from "@/utils/supabase/client";
+
+export default function ForgotPasswordPage() {
+  const supabase = createClient();
+
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setLoading(true);
+    setMessage("");
+    setErrorMsg("");
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+
+    if (error) {
+      setErrorMsg(error.message);
+    } else {
+      setMessage("Se envió el enlace para restablecer la contraseña a tu correo.");
+    }
+
+    setLoading(false);
+  }
+
   return (
-    <div className="min-h-screen bg-espe-bg text-espe-text">
-      <BrandBar title="Recuperar acceso" />
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="w-full max-w-md rounded-2xl border p-6 shadow">
+        <h1 className="text-2xl font-bold mb-2">Recuperar contraseña</h1>
+        <p className="text-sm text-gray-600 mb-6">
+          Ingresa tu correo institucional o registrado para enviarte un enlace.
+        </p>
 
-      <div className="mx-auto max-w-md px-5 py-14">
-        <div className="rounded-3xl border border-espe-gold/30 bg-espe-bg2/50 shadow-2xl backdrop-blur-md p-7">
-          <div className="text-center">
-            <div className="text-espe-gold text-[11px] tracking-[0.28em] uppercase">
-              ESPE Campus
-            </div>
-            <h1 className="mt-2 text-2xl font-extrabold tracking-wide text-espe-gold">
-              Recuperar contraseña
-            </h1>
-            <p className="mt-2 text-sm text-espe-muted">
-              Esta función se habilitará cuando el alumno tenga email registrado.
-            </p>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-1">Correo electrónico</label>
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full rounded-xl border px-3 py-2 outline-none"
+              placeholder="correo@ejemplo.com"
+            />
           </div>
 
-          <div className="mt-7 space-y-3">
-            <div className="rounded-xl border border-espe-gold/20 bg-black/20 p-4 text-sm text-espe-muted">
-              Por ahora, solicita tu cambio de contraseña con control escolar.
-            </div>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full rounded-xl bg-black text-white py-2 font-medium disabled:opacity-50"
+          >
+            {loading ? "Enviando..." : "Enviar enlace"}
+          </button>
+        </form>
 
-            <Link
-              href="/login"
-              className="block w-full text-center rounded-xl py-3 font-semibold tracking-wide text-espe-bg2
-                         bg-gradient-to-r from-espe-gold via-espe-gold2 to-espe-gold
-                         shadow-lg hover:opacity-95 active:scale-[0.99] transition"
-            >
-              Volver a iniciar sesión
-            </Link>
-          </div>
-        </div>
+        {message && <p className="mt-4 text-sm text-green-600">{message}</p>}
+        {errorMsg && <p className="mt-4 text-sm text-red-600">{errorMsg}</p>}
       </div>
     </div>
   );

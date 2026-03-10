@@ -41,9 +41,12 @@ export async function POST(req: Request) {
       .maybeSingle();
 
     if (userError) {
-      console.error("Error buscando usuario:", userError);
+      console.error("Error buscando usuario:", JSON.stringify(userError, null, 2));
       return NextResponse.json(
-        { error: "No se pudo procesar la solicitud." },
+        {
+          error: "No se pudo procesar la solicitud.",
+          details: userError,
+        },
         { status: 500 }
       );
     }
@@ -67,14 +70,10 @@ export async function POST(req: Request) {
       );
     }
 
-    // Token seguro
     const rawToken = crypto.randomBytes(32).toString("hex");
     const tokenHash = sha256(rawToken);
-
-    // Expira en 30 minutos
     const expiresAt = new Date(Date.now() + 30 * 60 * 1000).toISOString();
 
-    // Opcional: invalidar tokens previos sin usar
     await supabaseServer
       .from("password_resets")
       .update({ used_at: new Date().toISOString() })
@@ -90,18 +89,27 @@ export async function POST(req: Request) {
       });
 
     if (insertError) {
-      console.error("Error guardando token:", insertError);
+      console.error("Error guardando token:", JSON.stringify(insertError, null, 2));
       return NextResponse.json(
-        { error: "No se pudo generar el enlace de recuperación." },
+        {
+          error: "No se pudo generar el enlace de recuperación.",
+          details: insertError,
+        },
         { status: 500 }
       );
     }
 
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
     const resetUrl = `${appUrl}/reset-password?token=${rawToken}`;
+    const fromEmail =
+      process.env.RECOVERY_FROM_EMAIL || "ESPE Campus <onboarding@resend.dev>";
 
-    const { error: emailError } = await resend.emails.send({
-      from: process.env.RECOVERY_FROM_EMAIL || "ESPE Campus <onboarding@resend.dev>",
+    console.log("Intentando enviar correo de recuperación a:", recoveryEmail);
+    console.log("From:", fromEmail);
+    console.log("Reset URL:", resetUrl);
+
+    const { data: emailData, error: emailError } = await resend.emails.send({
+      from: fromEmail,
       to: recoveryEmail,
       subject: "Recuperación de contraseña - ESPE Campus",
       html: `
@@ -109,9 +117,7 @@ export async function POST(req: Request) {
           <h2>Recuperación de contraseña</h2>
           <p>Hola,</p>
           <p>Recibimos una solicitud para restablecer la contraseña de tu cuenta en <strong>ESPE Campus</strong>.</p>
-          <p>
-            Para continuar, haz clic en el siguiente botón:
-          </p>
+          <p>Para continuar, haz clic en el siguiente botón:</p>
           <p style="margin: 24px 0;">
             <a
               href="${resetUrl}"
@@ -130,26 +136,34 @@ export async function POST(req: Request) {
       `,
     });
 
-if (emailError) {
-  console.error("Error enviando correo:", JSON.stringify(emailError, null, 2));
-  return NextResponse.json(
-    {
-      error: "No se pudo enviar el correo de recuperación.",
-      details: emailError,
-    },
-    { status: 500 }
-  );
-}
+    if (emailError) {
+      console.error("Error enviando correo:", JSON.stringify(emailError, null, 2));
+
+      return NextResponse.json(
+        {
+          error: "No se pudo enviar el correo de recuperación.",
+          details: emailError,
+        },
+        { status: 500 }
+      );
+    }
+
+    console.log("Correo enviado correctamente:", JSON.stringify(emailData, null, 2));
 
     return NextResponse.json({
       ok: true,
       message: "Se envió el enlace de recuperación.",
       maskedEmail: maskEmail(recoveryEmail),
+      emailData,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error general send-recovery-email:", error);
+
     return NextResponse.json(
-      { error: "Error interno del servidor." },
+      {
+        error: "Error interno del servidor.",
+        details: error?.message || error,
+      },
       { status: 500 }
     );
   }

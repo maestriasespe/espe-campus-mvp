@@ -19,7 +19,7 @@ export default function SupportPage() {
     setMaskedEmail("");
 
     try {
-      const res = await fetch("/api/auth/recovery-status", {
+      const statusRes = await fetch("/api/auth/recovery-status", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -27,22 +27,43 @@ export default function SupportPage() {
         body: JSON.stringify({ matricula }),
       });
 
-      const data = await res.json();
+      const statusData = await statusRes.json();
 
-      if (!res.ok) {
-        setErrorMsg(data.error || "No se pudo validar la recuperación.");
-      } else {
-        if (data.hasRecoveryEmail) {
-          setMaskedEmail(data.maskedEmail || "");
-          setMessage(
-            "Tu cuenta tiene correo de recuperación registrado. Ya puedes continuar con el flujo de recuperación por correo."
-          );
-        } else {
-          setErrorMsg(
-            "No hay correo de recuperación asignado a esta cuenta. Comunícate con control escolar para recuperar tu contraseña."
-          );
-        }
+      if (!statusRes.ok) {
+        setErrorMsg(statusData.error || "No se pudo validar la recuperación.");
+        setLoading(false);
+        return;
       }
+
+      if (!statusData.hasRecoveryEmail) {
+        setErrorMsg(
+          "No hay correo de recuperación asignado a esta cuenta. Comunícate con control escolar para recuperar tu contraseña."
+        );
+        setLoading(false);
+        return;
+      }
+
+      setMaskedEmail(statusData.maskedEmail || "");
+
+      const sendRes = await fetch("/api/auth/send-recovery-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ matricula }),
+      });
+
+      const sendData = await sendRes.json();
+
+      if (!sendRes.ok) {
+        setErrorMsg(sendData.error || "No se pudo enviar el correo de recuperación.");
+        setLoading(false);
+        return;
+      }
+
+      setMessage(
+        `Se envió un enlace de recuperación al correo ${sendData.maskedEmail || statusData.maskedEmail}.`
+      );
     } catch {
       setErrorMsg("Ocurrió un error inesperado.");
     } finally {
@@ -71,7 +92,6 @@ export default function SupportPage() {
           </div>
 
           <div className="mt-8 grid gap-4 md:grid-cols-2">
-            {/* CAMBIAR CONTRASEÑA */}
             <div className="rounded-2xl border border-espe-gold/20 bg-black/20 p-5">
               <h2 className="text-lg font-semibold text-espe-gold">
                 Cambiar contraseña
@@ -91,7 +111,6 @@ export default function SupportPage() {
               </Link>
             </div>
 
-            {/* RECUPERAR POR CORREO */}
             <div className="rounded-2xl border border-espe-gold/20 bg-black/20 p-5">
               <h2 className="text-lg font-semibold text-espe-gold">
                 Recuperar por correo
@@ -125,7 +144,7 @@ export default function SupportPage() {
                              bg-gradient-to-r from-espe-gold via-espe-gold2 to-espe-gold
                              shadow-lg hover:opacity-95 active:scale-[0.99] transition disabled:opacity-50"
                 >
-                  {loading ? "Validando..." : "Validar recuperación"}
+                  {loading ? "Procesando..." : "Recuperar contraseña"}
                 </button>
               </form>
 

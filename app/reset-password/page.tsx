@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 
@@ -11,14 +11,42 @@ export default function ResetPasswordPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [ready, setReady] = useState(false);
   const [message, setMessage] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+
+  useEffect(() => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "PASSWORD_RECOVERY") {
+        setReady(true);
+      }
+    });
+
+    // También intentamos detectar si ya existe sesión cargada
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) {
+        setReady(true);
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [supabase]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
     setMessage("");
     setErrorMsg("");
+
+    if (!ready) {
+      setErrorMsg("La sesión de recuperación no está activa. Abre el enlace recibido por correo.");
+      setLoading(false);
+      return;
+    }
 
     if (password !== confirmPassword) {
       setErrorMsg("Las contraseñas no coinciden.");
@@ -56,6 +84,12 @@ export default function ResetPasswordPage() {
           Escribe tu nueva contraseña.
         </p>
 
+        {!ready && (
+          <p className="mb-4 text-sm text-amber-600">
+            Abre esta página únicamente desde el enlace de recuperación enviado a tu correo.
+          </p>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-1">Nueva contraseña</label>
@@ -83,7 +117,7 @@ export default function ResetPasswordPage() {
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || !ready}
             className="w-full rounded-xl bg-black text-white py-2 font-medium disabled:opacity-50"
           >
             {loading ? "Guardando..." : "Actualizar contraseña"}

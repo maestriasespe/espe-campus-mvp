@@ -97,6 +97,20 @@ export default async function StudentDashboard() {
           >
             Ver pagos
           </Link>
+
+          <Link
+            className="w-full rounded-xl2 border border-espe-gold bg-espe-surface px-4 py-3 text-center text-sm font-semibold text-espe-navy hover:bg-espe-gold/10 transition"
+            href="/profile"
+          >
+            Mi perfil
+          </Link>
+
+          <Link
+            className="w-full rounded-xl2 border border-espe-gold bg-espe-surface px-4 py-3 text-center text-sm font-semibold text-espe-navy hover:bg-espe-gold/10 transition"
+            href="/profile/change-password"
+          >
+            Cambiar contraseña
+          </Link>
         </div>
       </Card>
     </div>

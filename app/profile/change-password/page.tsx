@@ -1,11 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { createClient } from "@/utils/supabase/client";
 
 export default function ChangePasswordPage() {
-  const supabase = createClient();
-
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -30,16 +27,26 @@ export default function ChangePasswordPage() {
       return;
     }
 
-    const { error } = await supabase.auth.updateUser({
-      password,
-    });
+    try {
+      const res = await fetch("/api/student/change-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ password }),
+      });
 
-    if (error) {
-      setErrorMsg(error.message);
-    } else {
-      setMessage("Contraseña actualizada correctamente.");
-      setPassword("");
-      setConfirmPassword("");
+      const data = await res.json();
+
+      if (!res.ok) {
+        setErrorMsg(data.error || "No se pudo actualizar la contraseña.");
+      } else {
+        setMessage("Contraseña actualizada correctamente.");
+        setPassword("");
+        setConfirmPassword("");
+      }
+    } catch {
+      setErrorMsg("Ocurrió un error inesperado.");
     }
 
     setLoading(false);
@@ -55,7 +62,9 @@ export default function ChangePasswordPage() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Nueva contraseña</label>
+            <label className="block text-sm font-medium mb-1">
+              Nueva contraseña
+            </label>
             <input
               type="password"
               required
@@ -67,7 +76,9 @@ export default function ChangePasswordPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Confirmar nueva contraseña</label>
+            <label className="block text-sm font-medium mb-1">
+              Confirmar nueva contraseña
+            </label>
             <input
               type="password"
               required

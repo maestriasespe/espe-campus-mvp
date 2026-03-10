@@ -130,13 +130,16 @@ export async function POST(req: Request) {
       `,
     });
 
-    if (emailError) {
-      console.error("Error enviando correo:", emailError);
-      return NextResponse.json(
-        { error: "No se pudo enviar el correo de recuperación." },
-        { status: 500 }
-      );
-    }
+if (emailError) {
+  console.error("Error enviando correo:", JSON.stringify(emailError, null, 2));
+  return NextResponse.json(
+    {
+      error: "No se pudo enviar el correo de recuperación.",
+      details: emailError,
+    },
+    { status: 500 }
+  );
+}
 
     return NextResponse.json({
       ok: true,

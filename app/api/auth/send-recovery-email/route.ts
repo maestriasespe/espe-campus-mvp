@@ -3,7 +3,8 @@ import { supabaseServer } from "@/lib/supabase-server";
 import { Resend } from "resend";
 import crypto from "crypto";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resendApiKey = process.env.RESEND_API_KEY;
+const resend = new Resend(resendApiKey);
 
 function sha256(value: string) {
   return crypto.createHash("sha256").update(value).digest("hex");
@@ -24,6 +25,13 @@ function maskEmail(email: string) {
 
 export async function POST(req: Request) {
   try {
+    if (!resendApiKey) {
+      return NextResponse.json(
+        { error: "Falta configurar RESEND_API_KEY en Vercel." },
+        { status: 500 }
+      );
+    }
+
     const body = await req.json();
     const matricula = String(body?.matricula ?? "").trim();
 
@@ -99,10 +107,13 @@ export async function POST(req: Request) {
       );
     }
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    const appUrl =
+      process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+
     const resetUrl = `${appUrl}/reset-password?token=${rawToken}`;
+
     const fromEmail =
-      process.env.RECOVERY_FROM_EMAIL || "ESPE Campus <onboarding@resend.dev>";
+      process.env.RECOVERY_FROM_EMAIL || "ESPE Campus <soporte@espe.edu.mx>";
 
     console.log("Intentando enviar correo de recuperación a:", recoveryEmail);
     console.log("From:", fromEmail);

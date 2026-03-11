@@ -25,7 +25,10 @@ function maskEmail(email: string) {
 
 export async function POST(req: Request) {
   try {
+    console.log("ENTRÓ A SEND-RECOVERY-EMAIL");
+
     if (!resendApiKey) {
+      console.error("Falta RESEND_API_KEY");
       return NextResponse.json(
         { error: "Falta configurar RESEND_API_KEY en Vercel." },
         { status: 500 }
@@ -34,6 +37,8 @@ export async function POST(req: Request) {
 
     const body = await req.json();
     const matricula = String(body?.matricula ?? "").trim();
+
+    console.log("Matrícula recibida:", matricula);
 
     if (!matricula) {
       return NextResponse.json(
@@ -60,6 +65,7 @@ export async function POST(req: Request) {
     }
 
     if (!user) {
+      console.error("No se encontró usuario con matrícula:", matricula);
       return NextResponse.json(
         { error: "No se encontró una cuenta con esa matrícula." },
         { status: 404 }
@@ -67,6 +73,8 @@ export async function POST(req: Request) {
     }
 
     const recoveryEmail = String(user.recovery_email ?? "").trim().toLowerCase();
+
+    console.log("Recovery email encontrado:", recoveryEmail || "(vacío)");
 
     if (!recoveryEmail) {
       return NextResponse.json(
@@ -82,11 +90,19 @@ export async function POST(req: Request) {
     const tokenHash = sha256(rawToken);
     const expiresAt = new Date(Date.now() + 30 * 60 * 1000).toISOString();
 
-    await supabaseServer
+    // Invalidar tokens anteriores sin usar
+    const { error: invalidateError } = await supabaseServer
       .from("password_resets")
       .update({ used_at: new Date().toISOString() })
       .eq("user_id", user.id)
       .is("used_at", null);
+
+    if (invalidateError) {
+      console.error(
+        "Error invalidando tokens previos:",
+        JSON.stringify(invalidateError, null, 2)
+      );
+    }
 
     const { error: insertError } = await supabaseServer
       .from("password_resets")
@@ -107,9 +123,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const appUrl =
-      process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
     const resetUrl = `${appUrl}/reset-password?token=${rawToken}`;
 
     const fromEmail =
@@ -122,6 +136,7 @@ export async function POST(req: Request) {
     const { data: emailData, error: emailError } = await resend.emails.send({
       from: fromEmail,
       to: recoveryEmail,
+      replyTo: "soporte@espe.edu.mx",
       subject: "Recuperación de contraseña - ESPE Campus",
       html: `
         <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #111827;">
@@ -161,11 +176,22 @@ export async function POST(req: Request) {
 
     console.log("Correo enviado correctamente:", JSON.stringify(emailData, null, 2));
 
+    if (!emailData?.id) {
+      console.error("Resend no devolvió id de envío:", JSON.stringify(emailData, null, 2));
+      return NextResponse.json(
+        {
+          error: "Resend no confirmó el envío del correo.",
+          details: emailData,
+        },
+        { status: 500 }
+      );
+    }
+
     return NextResponse.json({
       ok: true,
       message: "Se envió el enlace de recuperación.",
       maskedEmail: maskEmail(recoveryEmail),
-      emailData,
+      emailId: emailData.id,
     });
   } catch (error: any) {
     console.error("Error general send-recovery-email:", error);

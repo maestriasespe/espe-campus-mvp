@@ -19,6 +19,9 @@ export default function SupportPage() {
     setMaskedEmail("");
 
     try {
+      console.log("=== INICIANDO FLUJO DE RECUPERACIÓN ===");
+      console.log("Matrícula enviada:", matricula);
+
       const statusRes = await fetch("/api/auth/recovery-status", {
         method: "POST",
         headers: {
@@ -28,6 +31,8 @@ export default function SupportPage() {
       });
 
       const statusData = await statusRes.json();
+      console.log("recovery-status status:", statusRes.status);
+      console.log("recovery-status data:", statusData);
 
       if (!statusRes.ok) {
         setErrorMsg(statusData.error || "No se pudo validar la recuperación.");
@@ -52,16 +57,21 @@ export default function SupportPage() {
       });
 
       const sendData = await sendRes.json();
+      console.log("send-recovery-email status:", sendRes.status);
+      console.log("send-recovery-email data:", sendData);
 
       if (!sendRes.ok) {
-        setErrorMsg(sendData.error || "No se pudo enviar el correo de recuperación.");
+        setErrorMsg(
+          sendData.error || "No se pudo enviar el correo de recuperación."
+        );
         return;
       }
 
       setMessage(
         `Se envió un enlace de recuperación al correo ${sendData.maskedEmail || statusData.maskedEmail}.`
       );
-    } catch {
+    } catch (error) {
+      console.error("Error en support page:", error);
       setErrorMsg("Ocurrió un error inesperado.");
     } finally {
       setLoading(false);

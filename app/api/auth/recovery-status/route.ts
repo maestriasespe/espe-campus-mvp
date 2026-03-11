@@ -14,31 +14,31 @@ function maskEmail(email: string) {
   return `${maskedName}@${domain}`;
 }
 
-export async function GET() {
-  return NextResponse.json({
-    ok: true,
-    route: "recovery-status alive",
-    time: new Date().toISOString(),
-  });
-}
-
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const matricula = String(body?.matricula ?? "").trim();
+    const identifier = String(body?.identifier ?? "").trim().toLowerCase();
 
-    if (!matricula) {
+    if (!identifier) {
       return NextResponse.json(
-        { error: "Debes ingresar una matrícula." },
+        { error: "Debes ingresar tu matrícula o correo." },
         { status: 400 }
       );
     }
 
-    const { data, error } = await supabaseServer
+    let query = supabaseServer
       .from("users")
-      .select("id, matricula, recovery_email")
-      .eq("matricula", matricula)
-      .maybeSingle();
+      .select("id, matricula, recovery_email");
+
+    const isEmail = identifier.includes("@");
+
+    if (isEmail) {
+      query = query.eq("recovery_email", identifier);
+    } else {
+      query = query.eq("matricula", identifier);
+    }
+
+    const { data, error } = await query.maybeSingle();
 
     if (error) {
       console.error("Error consultando recovery status:", error);
@@ -50,7 +50,7 @@ export async function POST(req: Request) {
 
     if (!data) {
       return NextResponse.json(
-        { error: "No se encontró una cuenta con esa matrícula." },
+        { error: "No se encontró una cuenta con ese dato." },
         { status: 404 }
       );
     }

@@ -88,7 +88,7 @@ export async function POST(req: Request) {
     if (markUsedError) {
       console.error("Error marcando token como usado:", markUsedError);
       return NextResponse.json(
-        { error: "La contraseña cambió, pero no se pudo cerrar correctamente el proceso. Intenta iniciar sesión." },
+        { error: "La contraseña cambió, pero no se pudo cerrar correctamente el proceso." },
         { status: 500 }
       );
     }

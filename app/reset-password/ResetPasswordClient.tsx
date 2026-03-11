@@ -8,9 +8,7 @@ type ResetPasswordClientProps = {
   token: string;
 };
 
-export default function ResetPasswordClient({
-  token,
-}: ResetPasswordClientProps) {
+export default function ResetPasswordClient({ token }: ResetPasswordClientProps) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -47,10 +45,7 @@ export default function ResetPasswordClient({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          token,
-          password,
-        }),
+        body: JSON.stringify({ token, password }),
       });
 
       const data = await res.json();
@@ -58,9 +53,7 @@ export default function ResetPasswordClient({
       if (!res.ok) {
         setErrorMsg(data.error || "No se pudo restablecer la contraseña.");
       } else {
-        setMessage(
-          "Tu contraseña fue actualizada correctamente. Ya puedes iniciar sesión."
-        );
+        setMessage("Tu contraseña fue actualizada correctamente. Ya puedes iniciar sesión.");
         setPassword("");
         setConfirmPassword("");
       }
@@ -78,16 +71,11 @@ export default function ResetPasswordClient({
       <div className="mx-auto max-w-2xl px-5 py-10">
         <div className="rounded-3xl border border-espe-gold/30 bg-espe-bg2/50 shadow-2xl backdrop-blur-md p-7">
           <div className="text-center">
-            <div className="text-espe-gold text-[11px] tracking-[0.28em] uppercase">
-              Escuela Superior de Procesos Electorales
-            </div>
-
             <h1 className="mt-2 text-3xl font-extrabold tracking-wide text-espe-gold">
               Restablecer contraseña
             </h1>
-
             <p className="mt-2 text-sm text-espe-muted">
-              Ingresa tu nueva contraseña para recuperar el acceso a tu cuenta.
+              Ingresa tu nueva contraseña.
             </p>
           </div>
 
@@ -102,15 +90,12 @@ export default function ResetPasswordClient({
               <label className="block text-sm font-medium text-espe-gold mb-1">
                 Nueva contraseña
               </label>
-
               <input
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-xl border border-espe-gold/25 bg-black/25 px-4 py-3 text-espe-text placeholder-espe-muted/70
-                           outline-none focus:border-espe-gold focus:ring-2 focus:ring-espe-gold/25"
-                placeholder="********"
+                className="w-full rounded-xl border border-espe-gold/25 bg-black/25 px-4 py-3"
                 disabled={!token || loading}
               />
             </div>
@@ -119,15 +104,12 @@ export default function ResetPasswordClient({
               <label className="block text-sm font-medium text-espe-gold mb-1">
                 Confirmar nueva contraseña
               </label>
-
               <input
                 type="password"
                 required
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full rounded-xl border border-espe-gold/25 bg-black/25 px-4 py-3 text-espe-text placeholder-espe-muted/70
-                           outline-none focus:border-espe-gold focus:ring-2 focus:ring-espe-gold/25"
-                placeholder="********"
+                className="w-full rounded-xl border border-espe-gold/25 bg-black/25 px-4 py-3"
                 disabled={!token || loading}
               />
             </div>
@@ -135,9 +117,7 @@ export default function ResetPasswordClient({
             <button
               type="submit"
               disabled={!token || loading}
-              className="rounded-xl px-4 py-2 font-semibold text-espe-bg2
-                         bg-gradient-to-r from-espe-gold via-espe-gold2 to-espe-gold
-                         shadow-lg hover:opacity-95 active:scale-[0.99] transition disabled:opacity-50"
+              className="rounded-xl px-4 py-2 font-semibold text-espe-bg2 bg-gradient-to-r from-espe-gold via-espe-gold2 to-espe-gold disabled:opacity-50"
             >
               {loading ? "Actualizando..." : "Guardar nueva contraseña"}
             </button>

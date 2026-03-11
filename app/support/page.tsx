@@ -13,12 +13,17 @@ export default function SupportPage() {
 
   async function handleRecoveryCheck(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    if (loading) return;
+
     setLoading(true);
     setMessage("");
     setErrorMsg("");
     setMaskedEmail("");
 
     try {
+      alert("Entró al flujo de recuperación");
+
       console.log("=== INICIANDO FLUJO DE RECUPERACIÓN ===");
       console.log("Matrícula enviada:", matricula);
 
@@ -31,8 +36,10 @@ export default function SupportPage() {
       });
 
       const statusData = await statusRes.json();
+
       console.log("recovery-status status:", statusRes.status);
       console.log("recovery-status data:", statusData);
+      alert(`recovery-status: ${statusRes.status}`);
 
       if (!statusRes.ok) {
         setErrorMsg(statusData.error || "No se pudo validar la recuperación.");
@@ -57,8 +64,10 @@ export default function SupportPage() {
       });
 
       const sendData = await sendRes.json();
+
       console.log("send-recovery-email status:", sendRes.status);
       console.log("send-recovery-email data:", sendData);
+      alert(`send-recovery-email: ${sendRes.status}`);
 
       if (!sendRes.ok) {
         setErrorMsg(
@@ -72,6 +81,7 @@ export default function SupportPage() {
       );
     } catch (error) {
       console.error("Error en support page:", error);
+      alert("Ocurrió un error inesperado en el frontend");
       setErrorMsg("Ocurrió un error inesperado.");
     } finally {
       setLoading(false);

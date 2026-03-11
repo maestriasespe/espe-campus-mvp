@@ -14,6 +14,14 @@ function maskEmail(email: string) {
   return `${maskedName}@${domain}`;
 }
 
+export async function GET() {
+  return NextResponse.json({
+    ok: true,
+    route: "recovery-status alive",
+    time: new Date().toISOString(),
+  });
+}
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();

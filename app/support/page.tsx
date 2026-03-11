@@ -31,7 +31,6 @@ export default function SupportPage() {
 
       if (!statusRes.ok) {
         setErrorMsg(statusData.error || "No se pudo validar la recuperación.");
-        setLoading(false);
         return;
       }
 
@@ -39,7 +38,6 @@ export default function SupportPage() {
         setErrorMsg(
           "No hay correo de recuperación asignado a esta cuenta. Comunícate con control escolar para recuperar tu contraseña."
         );
-        setLoading(false);
         return;
       }
 
@@ -57,7 +55,6 @@ export default function SupportPage() {
 
       if (!sendRes.ok) {
         setErrorMsg(sendData.error || "No se pudo enviar el correo de recuperación.");
-        setLoading(false);
         return;
       }
 
@@ -117,7 +114,7 @@ export default function SupportPage() {
               </h2>
 
               <p className="mt-2 text-sm text-espe-muted">
-                Ingresa tu matrícula para validar si tu cuenta tiene correo de recuperación registrado.
+                Ingresa tu matrícula para recuperar tu acceso.
               </p>
 
               <form onSubmit={handleRecoveryCheck} className="mt-4 space-y-4">

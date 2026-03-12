@@ -4,22 +4,38 @@ import { useMemo, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
-type HolidayEvent = {
+type EventItem = {
   date: string;
   title: string;
+  type: "festivo" | "academico" | "evento";
+  description?: string;
 };
 
-const holidayEvents: HolidayEvent[] = [
-  { date: "2026-01-01", title: "Año Nuevo" },
-  { date: "2026-02-05", title: "Constitución" },
-  { date: "2026-03-16", title: "Natalicio de Benito Juárez" },
-  { date: "2026-05-01", title: "Día del Trabajo" },
-  { date: "2026-09-16", title: "Independencia de México" },
-  { date: "2026-11-16", title: "Revolución Mexicana" },
-  { date: "2026-12-25", title: "Navidad" },
+const events: EventItem[] = [
+  {
+    date: "2026-03-18",
+    title: 'Conferencia Reforma Electoral "Plan B"',
+    type: "evento",
+    description: "Dr. Leonardo Valdés Zurita · 7:00 PM · Virtual vía Zoom",
+  },
+  {
+    date: "2026-01-01",
+    title: "Año Nuevo",
+    type: "festivo",
+  },
+  {
+    date: "2026-05-01",
+    title: "Día del Trabajo",
+    type: "festivo",
+  },
+  {
+    date: "2026-09-16",
+    title: "Independencia de México",
+    type: "festivo",
+  },
 ];
 
-function toLocalDateString(date: Date) {
+function toDateKey(date: Date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
@@ -29,21 +45,21 @@ function toLocalDateString(date: Date) {
 export default function CampusCalendar() {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
-  const selectedDateKey = useMemo(
-    () => toLocalDateString(selectedDate),
-    [selectedDate]
-  );
+  const selectedKey = useMemo(() => toDateKey(selectedDate), [selectedDate]);
 
-  const eventsForSelectedDay = holidayEvents.filter(
-    (event) => event.date === selectedDateKey
-  );
+  const dayEvents = events.filter((event) => event.date === selectedKey);
 
   return (
-    <div className="grid gap-6 md:grid-cols-[1.1fr_0.9fr]">
-      <div className="rounded-xl2 border border-espe-line bg-espe-surface p-6 shadow-soft">
-        <h2 className="mb-4 text-lg font-bold text-espe-navy">
-          Calendario escolar
-        </h2>
+    <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+      <section className="rounded-[2rem] border border-espe-line bg-white p-6 shadow-soft">
+        <div className="mb-4">
+          <p className="text-xs font-semibold tracking-wide text-espe-muted">
+            ESPE CAMPUS
+          </p>
+          <h2 className="mt-1 text-2xl font-extrabold text-espe-navy">
+            Calendario académico
+          </h2>
+        </div>
 
         <Calendar
           onChange={(value) => setSelectedDate(value as Date)}
@@ -51,45 +67,61 @@ export default function CampusCalendar() {
           tileClassName={({ date, view }) => {
             if (view !== "month") return "";
 
-            const key = toLocalDateString(date);
-            const hasEvent = holidayEvents.some((event) => event.date === key);
+            const key = toDateKey(date);
+            const event = events.find((item) => item.date === key);
 
-            return hasEvent ? "espe-holiday" : "";
+            if (!event) return "";
+
+            if (event.type === "festivo") return "espe-holiday";
+            if (event.type === "evento") return "espe-event";
+            return "espe-academic";
           }}
         />
-      </div>
+      </section>
 
-      <div className="rounded-xl2 border border-espe-line bg-espe-surface p-6 shadow-soft">
-        <h2 className="text-lg font-bold text-espe-navy">
-          Eventos del día
-        </h2>
-
-        <p className="mt-1 text-sm text-espe-muted">
-          {selectedDate.toLocaleDateString("es-MX", {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
+      <aside className="rounded-[2rem] border border-espe-line bg-white p-6 shadow-soft">
+        <p className="text-xs font-semibold tracking-wide text-espe-muted">
+          EVENTOS DEL DÍA
         </p>
 
-        <div className="mt-4 space-y-3">
-          {eventsForSelectedDay.length > 0 ? (
-            eventsForSelectedDay.map((event) => (
+        <h3 className="mt-2 text-xl font-extrabold text-espe-navy">
+          {selectedDate.toLocaleDateString("es-MX", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          })}
+        </h3>
+
+        <div className="mt-5 space-y-4">
+          {dayEvents.length > 0 ? (
+            dayEvents.map((event, index) => (
               <div
-                key={`${event.date}-${event.title}`}
-                className="rounded-xl border border-espe-gold/30 bg-espe-gold/10 p-4"
+                key={`${event.date}-${event.title}-${index}`}
+                className="rounded-2xl border border-espe-line bg-espe-surface p-4"
               >
-                <p className="font-semibold text-espe-navy">{event.title}</p>
+                <span className="inline-flex rounded-full bg-espe-gold/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-espe-gold">
+                  {event.type}
+                </span>
+
+                <p className="mt-3 text-lg font-bold text-espe-navy">
+                  {event.title}
+                </p>
+
+                {event.description ? (
+                  <p className="mt-2 text-sm text-espe-muted">
+                    {event.description}
+                  </p>
+                ) : null}
               </div>
             ))
           ) : (
-            <div className="rounded-xl border border-espe-line p-4 text-sm text-espe-muted">
+            <div className="rounded-2xl border border-espe-line bg-espe-surface p-4 text-sm text-espe-muted">
               No hay eventos registrados para este día.
             </div>
           )}
         </div>
-      </div>
+      </aside>
     </div>
   );
 }

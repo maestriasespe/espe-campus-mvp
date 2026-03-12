@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { getSession } from "@/lib/session";
 import BackButton from "@/components/BackButton";
 import LogoutButton from "@/components/LogoutButton";
 
@@ -9,22 +9,9 @@ export default async function CampusLayout({
 }: {
   children: React.ReactNode;
 }) {
-  let user = null;
+  const session = await getSession();
 
-  try {
-    const supabase = await createClient();
-
-    const {
-      data: { user: currentUser },
-    } = await supabase.auth.getUser();
-
-    user = currentUser;
-  } catch (error) {
-    console.error("Error en CampusLayout:", error);
-    redirect("/login");
-  }
-
-  if (!user) {
+  if (!session.user) {
     redirect("/login");
   }
 
@@ -53,8 +40,9 @@ export default async function CampusLayout({
         </div>
       </header>
 
-      <main className="mx-auto max-w-7xl px-4 py-6">{children}</main>
+      <main className="mx-auto max-w-7xl px-4 py-6">
+        {children}
+      </main>
     </div>
   );
 }
-

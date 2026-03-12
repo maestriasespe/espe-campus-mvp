@@ -1,4 +1,4 @@
-﻿import { Card } from "@/components/Card";
+import { Card } from "@/components/Card";
 import { requireRole } from "@/lib/require-session";
 import { supabaseServer } from "@/lib/supabase-server";
 import UploadProof from "@/components/UploadProof";
@@ -16,7 +16,7 @@ export default async function StudentPayments() {
   return (
     <Card title="Pagos">
       <div className="overflow-x-auto">
-        {/* min-w para que en móvil se pueda deslizar horizontal */}
+        {/* min-w para que en m�vil se pueda deslizar horizontal */}
         <table className="min-w-[780px] w-full text-sm">
           <thead className="text-left text-espe-muted">
             <tr>
@@ -41,7 +41,7 @@ export default async function StudentPayments() {
                 </td>
 
                 <td className="py-3 pr-4 text-espe-text">
-                  {r.due_date ? new Date(r.due_date).toLocaleDateString("es-MX") : "—"}
+                  {r.due_date ? new Date(r.due_date).toLocaleDateString("es-MX") : "�"}
                 </td>
 
                 <td className="py-3 pr-4">
@@ -93,3 +93,4 @@ export default async function StudentPayments() {
     </Card>
   );
 }
+

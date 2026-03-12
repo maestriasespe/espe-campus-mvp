@@ -6,3 +6,4 @@ export function createClient() {
     "sb_publishable_fabv1L2fQuDfJpxPMSDhlQ_F6FDBv3H"
   );
 }
+

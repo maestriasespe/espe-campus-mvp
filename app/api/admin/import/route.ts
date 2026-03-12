@@ -136,3 +136,4 @@ export async function POST(req: Request) {
 
   return new NextResponse("Tipo no soportado.", { status: 400 });
 }
+

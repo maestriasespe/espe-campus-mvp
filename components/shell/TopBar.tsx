@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 export function TopBar({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
@@ -21,3 +21,4 @@ export function TopBar({ title, subtitle }: { title: string; subtitle?: string }
     </header>
   );
 }
+

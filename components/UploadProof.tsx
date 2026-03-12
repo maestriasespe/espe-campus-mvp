@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -31,7 +31,7 @@ const res = await fetch(`/api/payments/${paymentId}/proof`, {
         throw new Error(data.error || "Error subiendo comprobante");
       }
 
-      setMsg("Comprobante enviado ✅");
+      setMsg("Comprobante enviado ?");
       router.refresh();
     } catch (err: any) {
       setMsg(err?.message || "Error");
@@ -69,3 +69,4 @@ const res = await fetch(`/api/payments/${paymentId}/proof`, {
     </div>
   );
 }
+

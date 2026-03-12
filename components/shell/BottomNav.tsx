@@ -32,3 +32,4 @@ export function BottomNav({ items }: { items: NavItem[] }) {
     </nav>
   );
 }
+

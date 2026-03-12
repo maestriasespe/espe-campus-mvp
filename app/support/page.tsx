@@ -119,7 +119,7 @@ export default function SupportPage() {
               </p>
 
               <Link
-                href="/profile/change-password-current"
+                href="/campus/profile/change-password-current"
                 className="mt-4 inline-block rounded-xl px-4 py-2 font-semibold text-espe-bg2
                            bg-gradient-to-r from-espe-gold via-espe-gold2 to-espe-gold
                            shadow-lg hover:opacity-95 active:scale-[0.99] transition"
@@ -194,3 +194,4 @@ export default function SupportPage() {
     </div>
   );
 }
+

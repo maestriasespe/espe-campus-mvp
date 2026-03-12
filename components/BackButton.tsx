@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useRouter } from "next/navigation";
 
@@ -22,7 +22,8 @@ return (
     onClick={handleBack}
     className="rounded bg-red-600 px-4 py-2 text-white"
   >
-    ← Regresar
+    ? Regresar
   </button>
 );
 }
+

@@ -116,3 +116,4 @@ export default function AdminStudentGradesPage({ params }: { params: { id: strin
     </div>
   );
 }
+

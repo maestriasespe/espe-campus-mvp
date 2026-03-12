@@ -18,3 +18,4 @@ export function BrandBar({ title }: { title: string }) {
     </div>
   );
 }
+

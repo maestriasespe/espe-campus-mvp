@@ -6,3 +6,4 @@ export async function POST(req: Request) {
   session.destroy();
   return NextResponse.redirect(new URL("/login", req.url));
 }
+

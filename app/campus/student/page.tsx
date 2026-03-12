@@ -79,35 +79,35 @@ export default async function StudentDashboard() {
         <div className="grid gap-3 md:grid-cols-3">
           <Link
             className="w-full rounded-xl2 border border-espe-gold bg-espe-surface px-4 py-3 text-center text-sm font-semibold text-espe-navy hover:bg-espe-gold/10 transition"
-            href="/student/grades"
+            href="/campus/student/grades"
           >
             Ver calificaciones
           </Link>
 
           <Link
             className="w-full rounded-xl2 border border-espe-gold bg-espe-surface px-4 py-3 text-center text-sm font-semibold text-espe-navy hover:bg-espe-gold/10 transition"
-            href="/student/tasks"
+            href="/campus/student/tasks"
           >
             Ver tareas
           </Link>
 
           <Link
             className="w-full rounded-xl2 border border-espe-gold bg-espe-gold px-4 py-3 text-center text-sm font-semibold text-espe-navy hover:brightness-95 transition"
-            href="/student/payments"
+            href="/campus/student/payments"
           >
             Ver pagos
           </Link>
 
           <Link
             className="w-full rounded-xl2 border border-espe-gold bg-espe-surface px-4 py-3 text-center text-sm font-semibold text-espe-navy hover:bg-espe-gold/10 transition"
-            href="/profile"
+            href="/campus/profile"
           >
             Mi perfil
           </Link>
 
           <Link
             className="w-full rounded-xl2 border border-espe-gold bg-espe-surface px-4 py-3 text-center text-sm font-semibold text-espe-navy hover:bg-espe-gold/10 transition"
-            href="/profile/change-password"
+            href="/campus/profile/change-password"
           >
             Cambiar contraseña
           </Link>
@@ -116,3 +116,4 @@ export default async function StudentDashboard() {
     </div>
   );
 }
+

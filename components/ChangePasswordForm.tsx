@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { createClient } from "@supabase/supabase-js";
@@ -16,8 +16,8 @@ export default function ChangePasswordForm() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    if (password.length < 10) return alert("La contraseña debe tener al menos 10 caracteres.");
-    if (password !== password2) return alert("Las contraseñas no coinciden.");
+    if (password.length < 10) return alert("La contrase�a debe tener al menos 10 caracteres.");
+    if (password !== password2) return alert("Las contrase�as no coinciden.");
 
     setLoading(true);
     const { error } = await supabase.auth.updateUser({ password });
@@ -26,14 +26,14 @@ export default function ChangePasswordForm() {
     if (error) return alert(error.message);
     setPassword("");
     setPassword2("");
-    alert("Contraseña actualizada ✅");
+    alert("Contrase�a actualizada ?");
   }
 
   return (
     <form onSubmit={onSubmit} className="space-y-3">
       <div>
         <label className="block text-xs font-semibold text-espe-muted mb-1">
-          Nueva contraseña
+          Nueva contrase�a
         </label>
         <input
           type="password"
@@ -47,7 +47,7 @@ export default function ChangePasswordForm() {
 
       <div>
         <label className="block text-xs font-semibold text-espe-muted mb-1">
-          Confirmar nueva contraseña
+          Confirmar nueva contrase�a
         </label>
         <input
           type="password"
@@ -64,8 +64,9 @@ export default function ChangePasswordForm() {
         className="rounded-xl2 border border-espe-gold bg-espe-gold/20 px-4 py-2 text-sm font-bold text-espe-text hover:bg-espe-gold/30 disabled:opacity-60"
         type="submit"
       >
-        {loading ? "Actualizando..." : "Actualizar contraseña"}
+        {loading ? "Actualizando..." : "Actualizar contrase�a"}
       </button>
     </form>
   );
 }
+

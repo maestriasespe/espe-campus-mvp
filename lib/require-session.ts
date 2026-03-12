@@ -12,3 +12,4 @@ export async function requireRole(role: "student" | "admin") {
   if (user.role !== role) redirect("/login");
   return user;
 }
+

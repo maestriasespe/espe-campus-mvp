@@ -142,3 +142,4 @@ export default function ResetPasswordClient({ token }: ResetPasswordClientProps)
     </div>
   );
 }
+

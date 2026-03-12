@@ -10,10 +10,10 @@ export function Nav({ role }: { role: "student" | "admin" }) {
         { href: "/logout", label: "Salir" },
       ]
     : [
-        { href: "/student", label: "Inicio" },
-        { href: "/student/grades", label: "Calificaciones" },
-        { href: "/student/tasks", label: "Tareas" },
-        { href: "/student/payments", label: "Pagos" },
+        { href: "/campus/student", label: "Inicio" },
+        { href: "/campus/student/grades", label: "Calificaciones" },
+        { href: "/campus/student/tasks", label: "Tareas" },
+        { href: "/campus/student/payments", label: "Pagos" },
         { href: "/logout", label: "Salir" },
       ];
   return (
@@ -30,3 +30,4 @@ export function Nav({ role }: { role: "student" | "admin" }) {
     </nav>
   );
 }
+

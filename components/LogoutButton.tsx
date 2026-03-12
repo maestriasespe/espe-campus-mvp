@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
@@ -19,7 +19,8 @@ export default function LogoutButton() {
       onClick={handleLogout}
       className="rounded-lg border border-neutral-300 px-3 py-1 text-sm hover:bg-neutral-100"
     >
-      Cerrar sesión
+      Cerrar sesi�n
     </button>
   );
 }
+

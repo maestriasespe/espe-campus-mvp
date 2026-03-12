@@ -46,21 +46,11 @@ export default function CampusCalendar() {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
   const selectedKey = useMemo(() => toDateKey(selectedDate), [selectedDate]);
-
   const dayEvents = events.filter((event) => event.date === selectedKey);
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-      <section className="rounded-[2rem] border border-espe-line bg-white p-6 shadow-soft">
-        <div className="mb-4">
-          <p className="text-xs font-semibold tracking-wide text-espe-muted">
-            ESPE CAMPUS
-          </p>
-          <h2 className="mt-1 text-2xl font-extrabold text-espe-navy">
-            Calendario académico
-          </h2>
-        </div>
-
+      <section className="rounded-xl2 border border-espe-line bg-espe-surface p-6 shadow-soft">
         <Calendar
           onChange={(value) => setSelectedDate(value as Date)}
           value={selectedDate}
@@ -71,7 +61,6 @@ export default function CampusCalendar() {
             const event = events.find((item) => item.date === key);
 
             if (!event) return "";
-
             if (event.type === "festivo") return "espe-holiday";
             if (event.type === "evento") return "espe-event";
             return "espe-academic";
@@ -79,7 +68,7 @@ export default function CampusCalendar() {
         />
       </section>
 
-      <aside className="rounded-[2rem] border border-espe-line bg-white p-6 shadow-soft">
+      <aside className="rounded-xl2 border border-espe-line bg-espe-surface p-6 shadow-soft">
         <p className="text-xs font-semibold tracking-wide text-espe-muted">
           EVENTOS DEL DÍA
         </p>
@@ -98,7 +87,7 @@ export default function CampusCalendar() {
             dayEvents.map((event, index) => (
               <div
                 key={`${event.date}-${event.title}-${index}`}
-                className="rounded-2xl border border-espe-line bg-espe-surface p-4"
+                className="rounded-xl border border-espe-line bg-white/70 p-4"
               >
                 <span className="inline-flex rounded-full bg-espe-gold/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-espe-gold">
                   {event.type}
@@ -116,7 +105,7 @@ export default function CampusCalendar() {
               </div>
             ))
           ) : (
-            <div className="rounded-2xl border border-espe-line bg-espe-surface p-4 text-sm text-espe-muted">
+            <div className="rounded-xl border border-espe-line bg-white/70 p-4 text-sm text-espe-muted">
               No hay eventos registrados para este día.
             </div>
           )}
@@ -124,4 +113,5 @@ export default function CampusCalendar() {
       </aside>
     </div>
   );
+}
 }

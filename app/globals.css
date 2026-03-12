@@ -1,3 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base typographic polish */
+html { -webkit-text-size-adjust: 100%; }
+body { font-feature-settings: "ss01" 1, "cv02" 1; }
+
+a { text-decoration: none; }
+a:hover { text-decoration: none; }
+
+/* Opcional: si quieres modo elegante oscuro global, descomenta:
+:root {
+  --espe-bg: #0b0b0d;
+  --espe-surface: rgba(255,255,255,0.06);
+  --espe-surface2: rgba(255,255,255,0.09);
+  --espe-border: rgba(255,255,255,0.10);
+  --espe-text: #f4f4f5;
+  --espe-muted: rgba(244,244,245,0.72);
+  --espe-gold: #c8a24a;
+}
+*/
+
+/* ===============================
+   ESPE Campus Calendar Styles
+   =============================== */
+
 .react-calendar {
   width: 100%;
   border: none;

@@ -17,12 +17,12 @@ export default function BackButton({ label = "Regresar" }: BackButtonProps) {
     }
   }
 
-  return (
-    <button
-      onClick={handleBack}
-      className="inline-flex items-center rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm font-medium text-neutral-700 shadow-sm hover:bg-neutral-50"
-    >
-      ← {label}
-    </button>
-  );
+return (
+  <button
+    onClick={handleBack}
+    className="rounded bg-red-600 px-4 py-2 text-white"
+  >
+    ← Regresar
+  </button>
+);
 }

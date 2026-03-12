@@ -9,11 +9,20 @@ export default async function CampusLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = await createClient();
+  let user = null;
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  try {
+    const supabase = await createClient();
+
+    const {
+      data: { user: currentUser },
+    } = await supabase.auth.getUser();
+
+    user = currentUser;
+  } catch (error) {
+    console.error("Error en CampusLayout:", error);
+    redirect("/login");
+  }
 
   if (!user) {
     redirect("/login");
@@ -44,9 +53,7 @@ export default async function CampusLayout({
         </div>
       </header>
 
-      <main className="mx-auto max-w-7xl px-4 py-6">
-        {children}
-      </main>
+      <main className="mx-auto max-w-7xl px-4 py-6">{children}</main>
     </div>
   );
 }

@@ -43,9 +43,9 @@ export async function middleware(request: NextRequest) {
 
     const isAuthPage =
       pathname === "/login" ||
-      pathname === "/recuperar" ||
-      pathname === "/cambiar-password" ||
-      pathname === "/soporte";
+      pathname === "/forgot" ||
+      pathname === "/reset-password" ||
+      pathname === "/support";
 
     const isPrivatePage = pathname.startsWith("/campus");
 
@@ -69,5 +69,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/login", "/recuperar", "/cambiar-password", "/soporte", "/campus/:path*"],
+  matcher: ["/login", "/forgot", "/reset-password", "/support", "/campus/:path*"],
 };

@@ -17,8 +17,8 @@ export default async function CampusLayout({
 
   return (
     <div className="min-h-screen bg-neutral-50">
-      <header className="sticky top-0 z-50 border-b bg-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
+      <header className="sticky top-0 z-50 border-b border-espe-line bg-white/95 backdrop-blur">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-6 md:py-5">
           <div className="flex items-center">
             <BackButton />
           </div>
@@ -27,9 +27,9 @@ export default async function CampusLayout({
             <Image
               src="/logo-espe.svg"
               alt="ESPE Campus"
-              width={200}
-              height={60}
-              className="h-14 w-auto md:h-16"
+              width={220}
+              height={64}
+              className="h-12 w-auto md:h-16"
               priority
             />
           </div>
@@ -40,7 +40,7 @@ export default async function CampusLayout({
         </div>
       </header>
 
-      <main className="mx-auto max-w-7xl px-4 py-6">
+      <main className="mx-auto max-w-7xl px-4 py-6 md:px-6 md:py-8">
         {children}
       </main>
     </div>

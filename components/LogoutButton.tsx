@@ -13,25 +13,17 @@ export default function LogoutButton() {
 
       router.push("/login");
       router.refresh();
-    } catch (err) {
-      console.error("Error al cerrar sesión:", err);
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
     }
   }
 
   return (
     <button
       onClick={handleLogout}
-      className="
-        rounded-xl px-4 py-2 text-sm font-semibold
-        bg-gradient-to-r from-espe-gold via-espe-gold2 to-espe-gold
-        text-espe-bg2
-        shadow-md
-        hover:opacity-95 hover:shadow-lg
-        active:scale-[0.98]
-        transition
-      "
+      className="rounded-xl border border-espe-gold/40 bg-white px-4 py-2 text-sm font-semibold text-espe-navy shadow-sm transition hover:bg-espe-gold/10 hover:shadow-md active:scale-[0.98]"
     >
-      Salir
+      Cerrar sesión
     </button>
   );
 }

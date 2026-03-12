@@ -31,26 +31,24 @@ export default async function StudentDashboard() {
 
   return (
     <div className="grid gap-5">
-      {/* Encabezado */}
-      <div className="rounded-xl2 border border-espe-line bg-espe-surface shadow-soft p-5 md:p-6">
+      <div className="rounded-xl2 border border-espe-line bg-espe-surface p-5 shadow-soft md:p-6">
         <p className="text-xs font-semibold tracking-wide text-espe-muted">
           ESPE CAMPUS • ALUMNO
         </p>
-        <h1 className="mt-1 text-2xl md:text-3xl font-extrabold text-espe-navy">
+        <h1 className="mt-1 text-2xl font-extrabold text-espe-navy md:text-3xl">
           Panel del estudiante
         </h1>
-        <p className="mt-2 text-sm md:text-base text-espe-muted">
+        <p className="mt-2 text-sm text-espe-muted md:text-base">
           Accesos rápidos y resumen de tu progreso.
         </p>
       </div>
 
-      {/* Métricas */}
       <div className="grid gap-4 md:grid-cols-3">
         <Card title="Promedio aproximado">
           <div className="text-4xl font-extrabold tracking-tight text-espe-navy">
             {avg ? avg.toFixed(1) : "—"}
           </div>
-          <div className="text-sm text-espe-muted mt-2">
+          <div className="mt-2 text-sm text-espe-muted">
             Basado en calificaciones capturadas.
           </div>
         </Card>
@@ -59,7 +57,7 @@ export default async function StudentDashboard() {
           <div className="text-4xl font-extrabold tracking-tight text-espe-navy">
             {pendingPayments ?? 0}
           </div>
-          <div className="text-sm text-espe-muted mt-2">
+          <div className="mt-2 text-sm text-espe-muted">
             Revisa en la sección Pagos.
           </div>
         </Card>
@@ -68,45 +66,51 @@ export default async function StudentDashboard() {
           <div className="text-4xl font-extrabold tracking-tight text-espe-navy">
             {pendingTasks ?? 0}
           </div>
-          <div className="text-sm text-espe-muted mt-2">
+          <div className="mt-2 text-sm text-espe-muted">
             Consulta tareas activas.
           </div>
         </Card>
       </div>
 
-      {/* Accesos rápidos */}
       <Card title="Accesos rápidos">
         <div className="grid gap-3 md:grid-cols-3">
           <Link
-            className="w-full rounded-xl2 border border-espe-gold bg-espe-surface px-4 py-3 text-center text-sm font-semibold text-espe-navy hover:bg-espe-gold/10 transition"
+            className="w-full rounded-xl2 border border-espe-gold bg-espe-surface px-4 py-3 text-center text-sm font-semibold text-espe-navy transition hover:bg-espe-gold/10"
             href="/campus/student/grades"
           >
             Ver calificaciones
           </Link>
 
           <Link
-            className="w-full rounded-xl2 border border-espe-gold bg-espe-surface px-4 py-3 text-center text-sm font-semibold text-espe-navy hover:bg-espe-gold/10 transition"
+            className="w-full rounded-xl2 border border-espe-gold bg-espe-surface px-4 py-3 text-center text-sm font-semibold text-espe-navy transition hover:bg-espe-gold/10"
             href="/campus/student/tasks"
           >
             Ver tareas
           </Link>
 
           <Link
-            className="w-full rounded-xl2 border border-espe-gold bg-espe-gold px-4 py-3 text-center text-sm font-semibold text-espe-navy hover:brightness-95 transition"
-            href="/campus/student/payments"
+            className="w-full rounded-xl2 border border-espe-gold bg-espe-gold px-4 py-3 text-center text-sm font-semibold text-espe-navy transition hover:brightness-95"
+            href="/campus/payments"
           >
             Ver pagos
           </Link>
 
           <Link
-            className="w-full rounded-xl2 border border-espe-gold bg-espe-surface px-4 py-3 text-center text-sm font-semibold text-espe-navy hover:bg-espe-gold/10 transition"
+            className="w-full rounded-xl2 border border-espe-gold bg-espe-surface px-4 py-3 text-center text-sm font-semibold text-espe-navy transition hover:bg-espe-gold/10"
+            href="/campus/events"
+          >
+            Eventos
+          </Link>
+
+          <Link
+            className="w-full rounded-xl2 border border-espe-gold bg-espe-surface px-4 py-3 text-center text-sm font-semibold text-espe-navy transition hover:bg-espe-gold/10"
             href="/campus/profile"
           >
             Mi perfil
           </Link>
 
           <Link
-            className="w-full rounded-xl2 border border-espe-gold bg-espe-surface px-4 py-3 text-center text-sm font-semibold text-espe-navy hover:bg-espe-gold/10 transition"
+            className="w-full rounded-xl2 border border-espe-gold bg-espe-surface px-4 py-3 text-center text-sm font-semibold text-espe-navy transition hover:bg-espe-gold/10"
             href="/campus/profile/change-password"
           >
             Cambiar contraseña
@@ -116,4 +120,3 @@ export default async function StudentDashboard() {
     </div>
   );
 }
-

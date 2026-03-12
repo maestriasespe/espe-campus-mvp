@@ -2,28 +2,23 @@
 
 import { useRouter } from "next/navigation";
 
-type BackButtonProps = {
-  label?: string;
-};
-
-export default function BackButton({ label = "Regresar" }: BackButtonProps) {
+export default function BackButton() {
   const router = useRouter();
 
   function handleBack() {
     if (window.history.length > 1) {
       router.back();
     } else {
-      router.push("/login");
+      router.push("/campus");
     }
   }
 
-return (
-  <button
-    onClick={handleBack}
-    className="rounded bg-red-600 px-4 py-2 text-white"
-  >
-    ? Regresar
-  </button>
-);
+  return (
+    <button
+      onClick={handleBack}
+      className="rounded-xl bg-gradient-to-r from-espe-gold via-espe-gold2 to-espe-gold px-4 py-2 text-sm font-semibold text-white shadow-md transition hover:opacity-95 hover:shadow-lg active:scale-[0.98]"
+    >
+      ← Regresar
+    </button>
+  );
 }
-

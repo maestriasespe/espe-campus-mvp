@@ -7,6 +7,14 @@ export default async function StudentDashboard() {
   const user = await requireRole("student");
   const studentId = user.studentId!;
 
+  const { data: student } = await supabaseServer
+    .from("students")
+    .select("full_name")
+    .eq("id", studentId)
+    .single();
+
+  const studentName = student?.full_name ?? "Alumno";
+
   const [{ count: pendingPayments }, { count: pendingTasks }] = await Promise.all([
     supabaseServer
       .from("payments")
@@ -35,11 +43,17 @@ export default async function StudentDashboard() {
         <p className="text-xs font-semibold tracking-wide text-espe-muted">
           ESPE CAMPUS • ALUMNO
         </p>
+
         <h1 className="mt-1 text-2xl font-extrabold text-espe-navy md:text-3xl">
-          Panel del estudiante
+          Bienvenido, {studentName}
         </h1>
+
         <p className="mt-2 text-sm text-espe-muted md:text-base">
           Accesos rápidos y resumen de tu progreso.
+        </p>
+
+        <p className="mt-1 text-xs text-espe-muted">
+          Matrícula: {user.matricula}
         </p>
       </div>
 

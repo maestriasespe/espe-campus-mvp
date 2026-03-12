@@ -27,9 +27,9 @@ export default async function CampusLayout({
             <Image
               src="/logo-espe.svg"
               alt="ESPE Campus"
-              width={120}
-              height={32}
-              className="h-8 w-auto"
+              width={200}
+              height={60}
+              className="h-14 w-auto md:h-16"
               priority
             />
           </div>

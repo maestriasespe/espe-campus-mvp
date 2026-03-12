@@ -1,4 +1,5 @@
 import { BrandBar } from "@/components/BrandBar";
+import BackButton from "@/components/BackButton";
 import Link from "next/link";
 
 type LoginPageProps = {
@@ -14,10 +15,14 @@ export default function LoginPage({ searchParams }: LoginPageProps) {
     <div className="min-h-screen bg-espe-bg text-espe-text">
       <BrandBar title="Acceso alumnos" />
 
-      <div className="mx-auto max-w-md px-5 py-14">
-        <div className="rounded-3xl border border-espe-gold/30 bg-espe-bg2/50 shadow-2xl backdrop-blur-md p-7">
+      <div className="mx-auto max-w-md px-5 py-10">
+        <div className="mb-6">
+          <BackButton />
+        </div>
+
+        <div className="rounded-3xl border border-espe-gold/30 bg-espe-bg2/50 p-7 shadow-2xl backdrop-blur-md">
           <div className="text-center">
-            <div className="text-espe-gold text-[11px] tracking-[0.28em] uppercase">
+            <div className="text-[11px] uppercase tracking-[0.28em] text-espe-gold">
               Escuela Superior de Procesos Electorales
             </div>
 
@@ -52,8 +57,7 @@ export default function LoginPage({ searchParams }: LoginPageProps) {
                 inputMode="text"
                 autoCapitalize="none"
                 autoCorrect="off"
-                className="mt-2 w-full rounded-xl border border-espe-gold/25 bg-black/25 px-4 py-3 text-espe-text placeholder-espe-muted/70
-                           outline-none focus:border-espe-gold focus:ring-2 focus:ring-espe-gold/25"
+                className="mt-2 w-full rounded-xl border border-espe-gold/25 bg-black/25 px-4 py-3 text-espe-text outline-none placeholder-espe-muted/70 focus:border-espe-gold focus:ring-2 focus:ring-espe-gold/25"
                 placeholder="Ej. 800123 o ALU8001"
                 required
               />
@@ -67,8 +71,7 @@ export default function LoginPage({ searchParams }: LoginPageProps) {
               <input
                 name="password"
                 type="password"
-                className="mt-2 w-full rounded-xl border border-espe-gold/25 bg-black/25 px-4 py-3 text-espe-text placeholder-espe-muted/70
-                           outline-none focus:border-espe-gold focus:ring-2 focus:ring-espe-gold/25"
+                className="mt-2 w-full rounded-xl border border-espe-gold/25 bg-black/25 px-4 py-3 text-espe-text outline-none placeholder-espe-muted/70 focus:border-espe-gold focus:ring-2 focus:ring-espe-gold/25"
                 placeholder="********"
                 required
               />
@@ -76,21 +79,17 @@ export default function LoginPage({ searchParams }: LoginPageProps) {
 
             <button
               type="submit"
-              className="w-full rounded-xl py-3 font-semibold tracking-wide text-espe-bg2
-                         bg-gradient-to-r from-espe-gold via-espe-gold2 to-espe-gold
-                         shadow-lg hover:opacity-95 active:scale-[0.99] transition"
+              className="w-full rounded-xl bg-gradient-to-r from-espe-gold via-espe-gold2 to-espe-gold py-3 font-semibold tracking-wide text-espe-bg2 shadow-lg transition hover:opacity-95 active:scale-[0.99]"
             >
               Entrar
             </button>
           </form>
 
           <div className="mt-6 flex items-center justify-between text-xs text-espe-muted">
-            <span>
-              ¿No tienes contraseña? Solicítala a control escolar
-            </span>
+            <span>¿No tienes contraseña? Solicítala a control escolar</span>
 
             <Link
-              className="text-espe-gold font-semibold hover:underline"
+              className="font-semibold text-espe-gold hover:underline"
               href="/forgot"
             >
               ¿Olvidaste tu contraseña?
@@ -101,4 +100,3 @@ export default function LoginPage({ searchParams }: LoginPageProps) {
     </div>
   );
 }
-

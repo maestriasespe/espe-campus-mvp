@@ -20,3 +20,57 @@ a:hover { text-decoration: none; }
   --espe-gold: #c8a24a;
 }
 */
+
+
+/* ===============================
+   ESPE Campus Calendar Styles
+   =============================== */
+
+.react-calendar {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+}
+
+.react-calendar__navigation button {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.react-calendar__navigation button:hover {
+  background: rgba(200,162,74,0.15);
+}
+
+.react-calendar__month-view__weekdays {
+  font-weight: 600;
+  color: #64748b;
+}
+
+.react-calendar__tile {
+  border-radius: 12px;
+  padding: 10px 0;
+  transition: all 0.15s ease;
+}
+
+.react-calendar__tile:hover {
+  background: rgba(200,162,74,0.12);
+}
+
+.react-calendar__tile--active {
+  background: #c8a24a !important;
+  color: white !important;
+}
+
+.react-calendar__tile--now {
+  background: rgba(200,162,74,0.25);
+  font-weight: 700;
+}
+
+/* Festivos */
+.espe-holiday {
+  background: rgba(200,162,74,0.20) !important;
+  color: #0f172a !important;
+  font-weight: 700;
+  border-radius: 12px;
+}

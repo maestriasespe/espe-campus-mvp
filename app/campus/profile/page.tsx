@@ -9,9 +9,9 @@ export default function ProfilePage() {
       <BrandBar title="Mi perfil" />
 
       <div className="mx-auto max-w-4xl px-5 py-10">
-        <div className="rounded-3xl border border-espe-gold/30 bg-espe-bg2/50 shadow-2xl backdrop-blur-md p-7">
+        <div className="rounded-3xl border border-espe-gold/30 bg-espe-bg2/50 p-7 shadow-2xl backdrop-blur-md">
           <div className="text-center">
-            <div className="text-espe-gold text-[11px] tracking-[0.28em] uppercase">
+            <div className="text-[11px] uppercase tracking-[0.28em] text-espe-gold">
               Escuela Superior de Procesos Electorales
             </div>
 
@@ -25,7 +25,6 @@ export default function ProfilePage() {
           </div>
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
-            {/* SEGURIDAD */}
             <div className="rounded-2xl border border-espe-gold/20 bg-black/20 p-5">
               <h2 className="text-lg font-semibold text-espe-gold">
                 Seguridad
@@ -36,16 +35,13 @@ export default function ProfilePage() {
               </p>
 
               <Link
-                href="/profile/change-password"
-                className="mt-4 inline-block rounded-xl px-4 py-2 font-semibold text-espe-bg2
-                           bg-gradient-to-r from-espe-gold via-espe-gold2 to-espe-gold
-                           shadow-lg hover:opacity-95 active:scale-[0.99] transition"
+                href="/campus/profile/change-password"
+                className="mt-4 inline-block rounded-xl bg-gradient-to-r from-espe-gold via-espe-gold2 to-espe-gold px-4 py-2 font-semibold text-espe-bg2 shadow-lg transition hover:opacity-95 active:scale-[0.99]"
               >
                 Cambiar contraseña
               </Link>
             </div>
 
-            {/* CORREO DE RECUPERACIÓN */}
             <div className="rounded-2xl border border-espe-gold/20 bg-black/20 p-5">
               <h2 className="text-lg font-semibold text-espe-gold">
                 Correo de recuperación
@@ -56,16 +52,13 @@ export default function ProfilePage() {
               </p>
 
               <Link
-                href="/profile/recovery-email"
-                className="mt-4 inline-block rounded-xl px-4 py-2 font-semibold text-espe-bg2
-                           bg-gradient-to-r from-espe-gold via-espe-gold2 to-espe-gold
-                           shadow-lg hover:opacity-95 active:scale-[0.99] transition"
+                href="/campus/profile/recovery-email"
+                className="mt-4 inline-block rounded-xl bg-gradient-to-r from-espe-gold via-espe-gold2 to-espe-gold px-4 py-2 font-semibold text-espe-bg2 shadow-lg transition hover:opacity-95 active:scale-[0.99]"
               >
                 Agregar o actualizar correo
               </Link>
             </div>
 
-            {/* ACCESO */}
             <div className="rounded-2xl border border-espe-gold/20 bg-black/20 p-5 sm:col-span-2">
               <h2 className="text-lg font-semibold text-espe-gold">
                 Acceso
